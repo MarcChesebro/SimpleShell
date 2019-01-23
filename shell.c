@@ -28,8 +28,9 @@ int main (int argc, char **argv){
 
 		char** arg_vector = (char**)malloc(sizeof(char*) * 5);
 		memset(&arg_vector[0], 0, sizeof(arg_vector));
+		//char arg_vector[10][90];
 
-		if(strcmp(cmd, "Quit") == 0){
+		if(strcmp(cmd, "quit") == 0){
 			printf("exiting...\n");
 			wait(&status);
 			free(cmdLine);
@@ -37,25 +38,28 @@ int main (int argc, char **argv){
 			exit(0);
 		}else if(cmd != NULL) {
 			//printf("entered\n");
-			int i = 0;
+			int i = 1;
 			char* token = strtok(NULL, " ");
 			//printf("yo\n");
 
 			printf("OG token: %s\n", token);
+			arg_vector[0] = (char*)malloc(sizeof(token));
+			arg_vector[0] = cmd;
+			printf("cmd: %s\n",arg_vector[0]);
 			if(token) {
 				while(token){
 					printf("loop\n");
 
 					//add to vector
 					arg_vector[i] = (char*)malloc(sizeof(token));
-					*arg_vector[i] = *token;
+					arg_vector[i] = token;
 					printf("token: %s\n",token );
 					printf("a_v: %s\n", arg_vector[i]);
 					token = strtok(NULL, " ");
 				}
 			}else{
 				printf("null token\n");
-				arg_vector[0] = "";
+				//arg_vector[0] = "";
 			}
 		}
 		//printf("vector: %s\n", arg_vector);
