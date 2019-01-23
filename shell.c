@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wait.h>
 
 int main (int argc, char **argv){
 
@@ -48,23 +49,19 @@ int main (int argc, char **argv){
 					arg_vector[i] = token;
 					printf("token: %s\n",token );
 					printf("a_v: %s\n", arg_vector[i]);
-
 					token = strtok(NULL, " ");
 				}
-			}
-
-			if (!token) {
+			}else{
 				printf("null token\n");
 				arg_vector[0] = "";
 			}
-
 		}
-		printf("vector: %s\n", arg_vector);
+		//printf("vector: %s\n", arg_vector);
 
 		childPid = fork();
 		if(childPid == 0){
 			//use execvp() to run command
-			execvp(cmd,&arg_vector);
+			execvp(cmd, arg_vector);
 			printf("executed\n");
 		}else{
 			printf("parent\n");
