@@ -21,7 +21,8 @@ int main (int argc, char **argv){
 		puts(filePath);
 
 		fgets(cmdLine, 250, stdin);
-
+ 
+		cmdLine[strcspn(cmdLine,"\n")] = 0;
 		char* cmd;
 		cmd = strtok(cmdLine, " ");
 		printf("command: %s\n", cmd);
@@ -29,6 +30,7 @@ int main (int argc, char **argv){
 		char** arg_vector = (char**)malloc(sizeof(char*) * 5);
 		memset(&arg_vector[0], 0, sizeof(arg_vector));
 		//char arg_vector[10][90];
+		
 
 		if(strcmp(cmd, "quit") == 0){
 			printf("exiting...\n");
@@ -57,23 +59,39 @@ int main (int argc, char **argv){
 					printf("a_v: %s\n", arg_vector[i]);
 					token = strtok(NULL, " ");
 				}
+				i = i+1;
+				
+				printf("Val of i: %d\n",i);
 			}else{
 				printf("null token\n");
 				//arg_vector[0] = "";
+			
+			}
+
+			printf("Val of i: %d\n",i);
+			arg_vector[i] = NULL;
+
+		        int u = 0;
+			while(u<i+1) {
+			   printf("argvector pos: %d, val: %s\n",u,arg_vector[u]);
+			   u++;
 			}
 		}
-		//printf("vector: %s\n", arg_vector);
+                
+		// add terminating char
+		//arg_vector[i+1] = NULL;
+		printf("vector: %s\n", &arg_vector);
 
 		int p[2];
 		pipe(p);
 		childPid = fork();
-		
+	
 		if(childPid == 0){
 			//use execvp() to run command
 			dup2(p[1], 1);	
 			close(p[0]);
 			
-			execvp(cmd, arg_vector);
+			execvp(arg_vector[0], arg_vector); 
 			close(p[1]);
 			printf("executed\n");
 			break;
