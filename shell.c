@@ -28,7 +28,7 @@ int main (int argc, char **argv){
 		cmdLine[strcspn(cmdLine,"\n")] = 0;
 		char* cmd;
 		cmd = strtok(cmdLine, " ");
-		printf("command: %s\n", cmd);
+		//printf("command: %s\n", cmd);
 
 		char** arg_vector = (char**)malloc(sizeof(char*) * 5);
 		memset(&arg_vector[0], 0, sizeof(arg_vector));
@@ -47,53 +47,53 @@ int main (int argc, char **argv){
 			char* token = strtok(NULL, " ");
 			//printf("yo\n");
 
-			printf("OG token: %s\n", token);
+			//printf("OG token: %s\n", token);
 			arg_vector[0] = (char*)malloc(sizeof(token));
 			arg_vector[0] = cmd;
-			printf("cmd: %s\n",arg_vector[0]);
+			//printf("cmd: %s\n",arg_vector[0]);
 			if(token) {
 				while(token){
-					printf("loop\n");
+					//printf("loop\n");
 
 					//add to vector
 					arg_vector[i] = (char*)malloc(sizeof(token));
 					arg_vector[i] = token;
-					printf("token: %s\n",token );
-					printf("a_v: %s\n", arg_vector[i]);
+					//printf("token: %s\n",token );
+					//printf("a_v: %s\n", arg_vector[i]);
 					token = strtok(NULL, " ");
 				}
 				i = i+1;
 				
-				printf("Val of i: %d\n",i);
+				//printf("Val of i: %d\n",i);
 			}else{
-				printf("null token\n");
+				//printf("null token\n");
 				//arg_vector[0] = "";
 			
 			}
 
-			printf("Val of i: %d\n",i);
+			//printf("Val of i: %d\n",i);
 			arg_vector[i] = NULL;
 
 		        int u = 0;
-			while(u<i+1) {
-			   printf("argvector pos: %d, val: %s\n",u,arg_vector[u]);
-			   u++;
-			}
+			//while(u<i+1) {
+			  // printf("argvector pos: %d, val: %s\n",u,arg_vector[u]);
+			  // u++;
+			//}
 		}
                 
 		// add terminating char
 		//arg_vector[i+1] = NULL;
-		printf("vector: %s\n", &arg_vector);
+		//printf("vector: %s\n", &arg_vector);
 		clock_t start, end;	
 		start = clock();
 		childPid = fork();
 	
 		if(childPid == 0){
 			execvp(arg_vector[0], arg_vector);
-			printf("executed\n");
+			//printf("executed\n");
 			break;
 		}else{
-			printf("parent\n");
+			//printf("parent\n");
 			int c;
 
 			struct rusage usage;
@@ -106,7 +106,7 @@ int main (int argc, char **argv){
  
 			double cpu_time = ((double)(end - start)) / CLOCKS_PER_SEC;	
 			
-			printf("Status: %d\n",status);
+			//printf("Status: %d\n",status);
 			printf("CPU time: %f\n", cpu_time);
 			printf("involentary context switches: %ld\n", usage.ru_nivcsw - invcsw_total);
 			invcsw_total = usage.ru_nivcsw;
