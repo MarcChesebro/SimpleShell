@@ -5,9 +5,11 @@
 #include <string.h>
 #include <wait.h>
 #include <time.h>
+#include <sys/resource.h>
 
 int main (int argc, char **argv){
 
+	long invcsw_total = 0;
 	while(1){
 		int childPid;
 		char* cmdLine;
@@ -93,13 +95,22 @@ int main (int argc, char **argv){
 		}else{
 			printf("parent\n");
 			int c;
-			
+
+			struct rusage usage;
+           		int ret;
+		
 			wait(&status);
-		       	end = clock();
+		       	
+       			ret = getrusage(RUSAGE_CHILDREN, &usage);
+			end = clock();
+ 
 			double cpu_time = ((double)(end - start)) / CLOCKS_PER_SEC;	
+			
 			printf("Status: %d\n",status);
 			printf("CPU time: %f\n", cpu_time);
-	}
+			printf("involentary context switches: %ld\n", usage.ru_nivcsw - invcsw_total);
+			invcsw_total = usage.ru_nivcsw;
+		}
 }
 
 return 0;
