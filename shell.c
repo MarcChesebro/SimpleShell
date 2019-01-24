@@ -41,8 +41,6 @@ int main (int argc, char **argv){
 		} else if(strcmp(cmd,"cd") == 0) {
 		  	char* path = strtok(NULL," ");
 				if (path) {
-					printf("Move to: %s\n",path);
-					printf("%d\n",strlen(path));
 					chdir(path);
 					getcwd(filePath, 500);
 					puts(filePath);
