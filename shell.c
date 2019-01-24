@@ -82,30 +82,16 @@ int main (int argc, char **argv){
 		//arg_vector[i+1] = NULL;
 		printf("vector: %s\n", &arg_vector);
 
-		int p[2];
-		pipe(p);
 		childPid = fork();
 	
 		if(childPid == 0){
-			//use execvp() to run command
-			dup2(p[1], 1);	
-			close(p[0]);
 			
 			execvp(arg_vector[0], arg_vector); 
-			close(p[1]);
 			printf("executed\n");
 			break;
 		}else{
-			close(p[1]);
 			printf("parent\n");
-		      	FILE *stream;
 			int c;
-			stream = fdopen (p[0], "r");
-			while ((c = fgetc (stream)) != EOF)
-				putchar (c);
-			fclose (stream);
-			
-			close(p[0]);
 			
 			wait(&status);
 			printf("Status: %d\n",status);
