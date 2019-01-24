@@ -17,10 +17,10 @@ int main (int argc, char **argv){
 		char* filePath;
 
 		cmdLine = malloc(250);
-		filePath = malloc(250);
+		filePath = malloc(500);
 
 		//print path
-		getcwd(filePath, 250);
+		getcwd(filePath, 500);
 		puts(filePath);
 
 		fgets(cmdLine, 250, stdin);
@@ -41,7 +41,22 @@ int main (int argc, char **argv){
 			free(cmdLine);
 			free(filePath);
 			exit(0);
-		}else if(cmd != NULL) {
+		} else if(strcmp(cmd,"cd") == 0) {
+		        char* path = strtok(NULL," ");
+			if (path) {
+				printf("Move to: %s\n",path);
+				printf("%d\n",strlen(path));
+				//path[strlen(path)-1] = '\0';
+				chdir(path);
+				getcwd(filePath, 500);
+				puts(filePath);
+			} else {
+			    chdir(getenv("HOME"));
+			    getcwd(filePath, 250);
+			    puts(filePath);
+			}	
+		}
+		else if(cmd != NULL) {
 			//printf("entered\n");
 			int i = 1;
 			char* token = strtok(NULL, " ");
