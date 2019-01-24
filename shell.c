@@ -7,6 +7,8 @@
 #include <time.h>
 #include <sys/resource.h>
 
+// Simple Shell for CIS 452 Lab 2
+// By Kaylin Zaroukian and Marc Chesebro
 int main (int argc, char **argv){
 
 	long invcsw_total = 0;
