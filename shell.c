@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <wait.h>
+#include <time.h>
 
 int main (int argc, char **argv){
 
@@ -81,12 +82,12 @@ int main (int argc, char **argv){
 		// add terminating char
 		//arg_vector[i+1] = NULL;
 		printf("vector: %s\n", &arg_vector);
-
+		clock_t start, end;	
+		start = clock();
 		childPid = fork();
 	
 		if(childPid == 0){
-			
-			execvp(arg_vector[0], arg_vector); 
+			execvp(arg_vector[0], arg_vector);
 			printf("executed\n");
 			break;
 		}else{
@@ -94,8 +95,10 @@ int main (int argc, char **argv){
 			int c;
 			
 			wait(&status);
+		       	end = clock();
+			double cpu_time = ((double)(end - start)) / CLOCKS_PER_SEC;	
 			printf("Status: %d\n",status);
-
+			printf("CPU time: %f\n", cpu_time);
 	}
 }
 
